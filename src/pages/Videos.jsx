@@ -2,7 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import VideoCard from "../components/VideoCard";
-import axios from "axios";
+import FakeYoutbe from "../api/fakeYoutube";
+import Youtube from "../api/youtube";
 
 export default function Videos() {
   const { keyword } = useParams();
@@ -10,15 +11,9 @@ export default function Videos() {
     isLoading,
     error,
     data: videos,
-  } = useQuery(["videos", keyword], async () => {
-    //keyword가 있으면 검색 결과를 JSON으로 읽어오고, 아니라면 popular JSON 읽어옴
-    return (
-      //mock data
-      axios
-        .get(`/videos/${keyword ? "search" : "popular"}.json`)
-        //items만 읽어오게끔 반환
-        .then((res) => res.data.items)
-    );
+  } = useQuery(["videos", keyword], () => {
+    const youtube = new Youtube();
+    return youtube.search(keyword);
   });
 
   return (
