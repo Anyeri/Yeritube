@@ -3,12 +3,10 @@ import axios from "axios";
 
 export default class YoutubeClient {
   constructor() {
-    //axios 통신에 필요한 기본적인 setting
     this.httpClient = axios.create({
       baseURL: "https://www.googleapis.com/youtube/v3",
       params: { key: process.env.REACT_APP_YOUTUBE_API_KEY },
     });
-    console.log("env::::::" + process.env.REACT_APP_YOUTUBE_API_KEY);
   }
 
   async search(params) {
@@ -22,3 +20,4 @@ export default class YoutubeClient {
     return this.httpClient.get("channels", params);
   }
 }
+//axios 통신에 필요한 기본적인 setting
